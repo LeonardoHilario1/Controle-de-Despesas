@@ -1,7 +1,7 @@
 import React from 'react'
 
 
-function ListTransaction({transaction}) {
+function ListTransaction({transaction,onClick,onClickDel}) {
   return (
     <>
       <table>
@@ -22,6 +22,8 @@ function ListTransaction({transaction}) {
               <td>{t.description}</td>
               <td>{t.amount}</td>
               <td>{t.date}</td>
+              <td><button onClick={()=> onClick(t)}>Editar</button></td>
+              <td><button onClick={()=> onClickDel(t)}>Excluir</button></td>
             </tr>
           ))}
         </tbody>

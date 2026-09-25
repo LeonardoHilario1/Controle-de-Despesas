@@ -17,7 +17,7 @@ class DespesasController {
             const { categoryUrl } = req.params
             const userId = req.user.id;
 
-            const category = await DespesasService.findCategory(categoryUrl,userId)
+            const category = await DespesasService.findCategory(categoryUrl, userId)
             res.status(200).json(category)
         } catch (error) {
             res.status(400).json({ error: error.message })
@@ -29,7 +29,7 @@ class DespesasController {
             const { typeUrl } = req.params
             const userId = req.user.id;
 
-            const type = await DespesasService.findType(typeUrl,userId)
+            const type = await DespesasService.findType(typeUrl, userId)
             res.status(200).json(type)
         } catch (error) {
             res.status(400).json({ error: error.message })
@@ -41,35 +41,37 @@ class DespesasController {
             const createData = req.body
             const userId = req.user.id;
 
-            const dataTransaction = await DespesasService.createTransaction(createData,userId)
+            const dataTransaction = await DespesasService.createTransaction(createData, userId)
             res.status(200).json(dataTransaction)
         } catch (error) {
             res.status(400).json({ error: error.message })
         }
     }
 
-    async editTransactionController(req,res){
-        try{
-            const {id}=req.params
-            const data=req.body
+    async editTransactionController(req, res) {
+        try {
+            const { id } = req.params
+            const idNumero = Number(id)
+            const data = req.body
             const userId = req.user.id;
 
-            const editTransaction= await DespesasService.editTransaction(id,data,userId)
+            const editTransaction = await DespesasService.editTransaction(idNumero, data, userId)
             res.status(200).json(editTransaction)
-        }catch(error){
-            res.status(400).json({error:error.message})
+        } catch (error) {
+            res.status(400).json({ error: error.message })
         }
     }
 
-    async deleteTransactionController(req,res){
-        try{
-            const {id}=req.params
+    async deleteTransactionController(req, res) {
+        try {
+            const { id } = req.params
+            const idNumber=Number(id)
             const userId = req.user.id;
 
-            const deleteTransaction= await DespesasService.deleteTransaction(id,userId)
-            res.status(200).send("Despesa Removida!")
-        }catch(error){
-            res.status(400).json({error:error.message})
+            const deleteTransaction = await DespesasService.deleteTransaction(idNumber, userId)
+            res.status(200).json(userId)
+        } catch (error) {
+            res.status(400).json({ error: error.message })
         }
     }
 }
