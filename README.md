@@ -1,4 +1,3 @@
-﻿# Controle-de-Despesas
 # Controle de Despesas Pessoais
 
 Aplicação full stack para controle de despesas e receitas pessoais, com autenticação de usuários e geração de resumos financeiros por IA.
