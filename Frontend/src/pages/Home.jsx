@@ -4,6 +4,8 @@ import Header from './Header'
 import { useForm } from 'react-hook-form'
 import { UserContext } from '../context/UserContext'
 import ListTransaction from '../components/ListTransaction'
+import { useNavigate } from 'react-router'
+
 
 function Home() {
   const { register, handleSubmit, reset } = useForm()
@@ -12,6 +14,8 @@ function Home() {
   const [alldata, setAllData] = useState([])
   const [modalAberto, setModalAberto] = useState(false)
   const [transacaoEdit, setTransacaoEdit] = useState(null)
+  const navigate=useNavigate()
+  
 
   const onSubmit = async (dados) => {
     const dadosFormatados = {
@@ -100,34 +104,55 @@ function Home() {
   }, [transacaoEdit])
 
   const onEditSubmit = async (dados) => {
-    const dadosFormatados={
+    const dadosFormatados = {
       ...dados,
-      amount:Number(dados.amount)
+      amount: Number(dados.amount)
     }
 
     await editTransaction(dadosFormatados, transacaoEdit.id)
-    
+
     setModalAberto(false)
     setTransacaoEdit(null)
   }
 
   async function deleteTransaction(id) {
-    try{
-      const delData=await fetch(`http://localhost:5000/api/transaction/delete/${id}`,{
-        method:"DELETE",
-        headers:{"Content-Type":"application/json",Authorization:`Bearer ${token}`}
+    try {
+      const delData = await fetch(`http://localhost:5000/api/transaction/delete/${id}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` }
       })
 
-      const resultDel= await delData.json()
+      const resultDel = await delData.json()
 
-      if(!delData.ok){
+      if (!delData.ok) {
         throw new Error(resultDel.error || "Erro ao Excluir transação")
       }
       getData()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  async function gerarTextoIa(){
+    try{
+      const searchData= await fetch("http://localhost:5000/api/IaGenerations/output",{
+        method:"POST",
+        headers:{"Content-Type":"application/json",Authorization:`Bearer ${token}`}
+      })
+
+      const resultIA= await searchData.json()
+
+      if(!searchData.ok){
+        throw new Error(resultIA.error || "Erro ao gerar resumo das despesas")
+      }
+
+      navigate("/Resume")
+
     }catch(error){
       console.log(error)
     }
   }
+
 
   return (
     <div>
@@ -152,7 +177,7 @@ function Home() {
         onClick={(transacaoClicada) => {
           setTransacaoEdit(transacaoClicada)
           setModalAberto(true)
-        }}        onClickDel={((transacaoClicada)=> deleteTransaction(transacaoClicada.id))}
+        }} onClickDel={((transacaoClicada) => deleteTransaction(transacaoClicada.id))}
 
       />
 
@@ -161,6 +186,10 @@ function Home() {
 
       <h3>Total de Entrada</h3>
       {totalDespesas.INCOME}
+        <br></br>
+      
+
+      <button onClick={gerarTextoIa}>Gerar Resumo com IA</button>
 
       {modalAberto && (
         <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.5)' }}>

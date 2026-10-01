@@ -5,6 +5,7 @@ function Header() {
   return (
     <ul>
         <li><Link to={"/Home"}>Home</Link></li>
+        <li><Link to={"/Resume"}>Resume</Link></li>
         <li><Link to={"/Dash"}>Dashboard</Link></li>
     </ul>
   )

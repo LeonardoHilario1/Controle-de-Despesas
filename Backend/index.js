@@ -3,7 +3,7 @@ import 'dotenv/config'
 import cors from 'cors'
 import userRoutes from './src/routes/RouterUser.js';
 import despesasRoutes from './src/routes/RouterTransaction.js';
-
+import summaryIa from "./src/routes/RouterIaGeneration.js"
 
 const app=express()
 
@@ -13,7 +13,7 @@ app.use(cors({
 
 app.use(express.json())
 
-app.use('/api', userRoutes,despesasRoutes);
+app.use('/api', userRoutes,despesasRoutes,summaryIa);
 
 
 

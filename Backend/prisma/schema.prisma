@@ -19,6 +19,7 @@ model User {
   createdAt DateTime @default(now())
 
   transactions Transaction[]
+  iageneration IAgeneration[] 
 }
 
 model Transaction {
@@ -31,4 +32,13 @@ model Transaction {
 
   userId Int
   user   User @relation(fields: [userId], references: [id])
+}
+
+model IAgeneration{
+  id            Int          @id @default(autoincrement())
+  text          String 
+  date          DateTime     @default(now())
+
+  userId Int  @unique
+  user   User @relation(fields:[userId],references:[id])
 }
