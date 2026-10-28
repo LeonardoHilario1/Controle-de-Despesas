@@ -102,3 +102,4 @@ npm run dev
 - Histórico de resumos gerados (em vez de manter apenas o mais recente)
 - Filtros de período nas transações e nos resumos
 - Migração do backend para TypeScript
+- Implementar testes automáticos 
