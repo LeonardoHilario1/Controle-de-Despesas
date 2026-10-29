@@ -8,7 +8,7 @@ class UserService {
         const usuarioCriado = await prisma.user.create({
             data: {
                 name: dados.name,
-                email: dados.email,
+                email: dados.email.toLowerCase().trim(),
                 password: senhaHasheada
             }
         })
@@ -18,7 +18,7 @@ class UserService {
     }
 
     async loginValidation(email, senha) {
-        const usuarioEncontrado = await prisma.user.findUnique({ where: { email: email } })
+        const usuarioEncontrado = await prisma.user.findUnique({ where: { email: email.toLowerCase().trim() } })
 
         if (!usuarioEncontrado) {
             throw new Error("Credenciais Inválidas")
